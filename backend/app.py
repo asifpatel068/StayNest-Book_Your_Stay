@@ -1,6 +1,7 @@
 from flask import Flask, request, jsonify
 import mysql.connector
 from flask_cors import CORS
+import bcrypt
 
 app = Flask(__name__)
 CORS(app) 
@@ -147,6 +148,5 @@ def delete_host(host_id):
 
 
 
-
-if __name__ == '__main__':
-    app.run(debug=True)
+if __name__ == "__main__":
+    app.run(host="0.0.0.0", port=5000)

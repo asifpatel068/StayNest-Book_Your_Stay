@@ -1,6 +1,9 @@
 import React, { useState, useEffect } from 'react';
+import { useParams } from 'react-router-dom';
 
-const HostAccountPage = ({ hostId }) => {
+const HostAccount = () => {
+  const { hostId } = useParams(); // Get hostId from URL parameters
+
   const [host, setHost] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
@@ -34,11 +37,12 @@ const HostAccountPage = ({ hostId }) => {
     })
       .then(() => {
         // Refresh the host details after successful update
-        fetch(`/hosts/${hostId}`)
+        fetch(`http://localhost:5000/hosts/${hostId}`)
           .then((response) => response.json())
           .then((data) => {
             setHost(data);
             setFormData(data);
+            alert("success")
           })
           .catch((error) => console.error('Error fetching host:', error));
         setEditMode(false);
@@ -57,18 +61,6 @@ const HostAccountPage = ({ hostId }) => {
               <input type="text" name="name" value={formData.name || ''} onChange={handleChange} />
             ) : (
               <span>{host.name}</span>
-            )}
-          </div>
-          <div>
-            <label>Email:</label>
-            <span>{host.email}</span>
-          </div>
-          <div>
-            <label>Location:</label>
-            {editMode ? (
-              <input type="text" name="location" value={formData.location || ''} onChange={handleChange} />
-            ) : (
-              <span>{host.location}</span>
             )}
           </div>
           {/* Add other fields here */}
@@ -98,4 +90,4 @@ const HostAccountPage = ({ hostId }) => {
   );
 };
 
-export default HostAccountPage;
+export default HostAccount;
