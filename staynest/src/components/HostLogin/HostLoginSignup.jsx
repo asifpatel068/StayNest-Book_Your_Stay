@@ -46,6 +46,8 @@ const LoginSignup = () => {
           console.log('Login:', data);
           if(data.success){
             alert("Login Success")
+            localStorage.setItem("hostToken",data.token)
+      
             navigate('/HostProfile');
           }
         })

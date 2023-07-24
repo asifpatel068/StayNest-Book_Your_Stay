@@ -3,8 +3,8 @@ import axios from "axios"
 
 export default function HostProfile() {
 
-  
     //side images
+    let token=localStorage.getItem("hostToken")||null;
     
     const [sideImage,setSideImage]=useState()
     const [sd,setSd]=useState([])
@@ -43,6 +43,7 @@ export default function HostProfile() {
 
     //----------------------handle change---------------------------------
     const [formData,setFormData]=useState({ })
+    const [img,setImg]=useState({ })
 
     const handleChange=(e)=>{
         const {id,value}=e.target
@@ -50,17 +51,45 @@ export default function HostProfile() {
         console.log(formData)
     }
 
+    const handleChange1=(e)=>{
+       setImg(e.target.value)
+    }
+
+
     const handleSubmit=(e)=>{
         e.preventDefault()
         setFormData({
             ...formData,
-            amenteies:sa,
-            sideImage:sd
+            images:{
+                main:img,
+                gallery:sd
+            },
+            amenteies:sa
         })
         //------------------
-        axios.post("https://puzzled-cow-coveralls.cyclic.app/properties",formData
-        .then(()=>{alert("data added")})
-        )
+
+        fetch('https://puzzled-cow-coveralls.cyclic.app/properties', {
+            method: 'POST',
+            headers: {
+              'Content-Type': 'application/json',
+            },
+            Authorizatin:token,
+            body: JSON.stringify(formData),
+          })
+            .then((response) => response.json())
+            .then((data) => {
+            
+              console.log(data);
+            })
+            .catch((error) => {
+             
+              console.error( error);
+            });
+
+    //     axios.post("https://puzzled-cow-coveralls.cyclic.app/properties",formData)
+    //     .then((res)=>{
+    //         console.log(res);
+    //    })
     }
 
     useEffect(()=>{
@@ -82,8 +111,11 @@ export default function HostProfile() {
             <label htmlFor="">price</label>
             <input type="text"  onChange={handleChange}  id='price'/>
 
+            <label htmlFor="">location</label>
+            <input type="text"  onChange={handleChange}  id='location'/>
+
             <label htmlFor="">Main-images</label>
-            <input type="text"  onChange={handleChange}  id='main'/>
+            <input type="text"  onChange={handleChange1}  id='main'/>
             <label htmlFor="">Side-images</label>
             <input type="text"   id='gallery' onChange={SideImageValue}/>
             <br />
