@@ -67,22 +67,22 @@ export default function HostProfile() {
             amenteies:sa
         })
         //------------------
-
+        console.log(token)
         fetch('https://puzzled-cow-coveralls.cyclic.app/properties', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',
             },
-            Authorizatin:token,
+            'Authorization': token,
             body: JSON.stringify(formData),
           })
             .then((response) => response.json())
             .then((data) => {
-            
+                alert("added data")
               console.log(data);
             })
             .catch((error) => {
-             
+             alert("invalid")
               console.error( error);
             });
 
