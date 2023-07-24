@@ -168,7 +168,7 @@ app.get('/hosts', (req, res) => {
   });
 
 
-  // Authenticate a user (guest)
+
   app.post('/guest/login', (req, res) => {
     const { email, password } = req.body;
 
@@ -188,14 +188,13 @@ app.get('/hosts', (req, res) => {
       const user = results[0];
       
 
-      
-      // Compare the password
+ 
       bcrypt.compare(password, user.password, (error, isMatch) => {
         if (error) {
           console.error('Failed to compare passwords:', error);
           res.status(500).json({ message: 'Failed to authenticate user' });
         } else if (isMatch) {
-          // Passwords match, generate a token
+      
           const token = jwt.sign({ userId: user.id, role: user.role }, process.env.JWT_SECRET);
           const query1='SELECT name FROM guests WHERE email = ?';
            connection.query(query1, [email], (error, results) => {
@@ -204,7 +203,7 @@ app.get('/hosts', (req, res) => {
            })
           
         } else {
-          // Passwords don't match
+  
           res.status(401).json({ message: 'Invalid credentials' });
         }
       });
@@ -214,27 +213,17 @@ app.get('/hosts', (req, res) => {
   // Create a new property (hotel)
   app.post('/properties', verifyHostToken, (req, res) => {
     const {
-      name,
-      about,
-      property_type,
-      price,
-      images,
-      location,
-      amenities,
-      rating,
-      availability,
-      booked
+      name,about,property_type,price,images,location,amenities,rating,availability,booked
     } = req.body;
     const hostId = req.hostId;
   
-    // Convert JSON data to string
+
     const imagesJSON = JSON.stringify(images);
     const amenitiesJSON = JSON.stringify(amenities);
     const ratingJSON = JSON.stringify(rating);
     const availabilityJSON = JSON.stringify(availability);
     const bookedJSON = JSON.stringify(booked);
-  
-    // Create the property
+
     const query =
       'INSERT INTO properties (host_id, name, about, property_type, price, images, location, amenities, rating, availability, booked) VALUES (?, ?, ?, ?, ?, ?, ?, ?, ?, ?, ?)';
     connection.query(
@@ -267,7 +256,7 @@ app.get('/hosts', (req, res) => {
   app.get('/host-properties', verifyHostToken, (req, res) => {
     const hostId = req.hostId;
   
-    // Retrieve properties for the host
+
     const query = 'SELECT * FROM properties WHERE host_id = ?';
     connection.query(query, [hostId], (error, results) => {
       if (error) {
@@ -279,11 +268,11 @@ app.get('/hosts', (req, res) => {
     });
   });
   
-  // Get all properties (hotels)
+
   app.get('/properties', (req, res) => {
     const { location, amenities, rating } = req.query;
   
-    // Construct the SQL query based on the provided search, filter, and sort options
+
     let query = 'SELECT * FROM properties';
     let conditions = [];
     let values = [];
@@ -325,13 +314,10 @@ app.get('/hosts', (req, res) => {
     });
   });
 
-  // Get property details (hotel details)
+
   app.get('/properties/:property_id', (req, res) => {
     const { property_id } = req.params;
-    // const hostId = req.hostId;
-  
 
-    // Retrieve properties for the host
     const query = 'SELECT * FROM properties WHERE id = ?';
     connection.query(query, [property_id], (error, results) => {
       if (error) {
@@ -343,13 +329,11 @@ app.get('/hosts', (req, res) => {
     });
   });
 
-  // Update property details (hotel details)
   app.put('/properties/:property_id', verifyHostToken, (req, res) => {
     const { title, description, price, picture, rooms, location, amenities, rating } = req.body;
     const propertyId = req.params.property_id;
     const hostId = req.hostId;
   
-    // Update the property
     const query =
       'UPDATE properties SET title = ?, description = ?, price = ?, picture = ?, rooms = ?, location = ?, amenities = ?, rating = ? WHERE id = ? AND host_id = ?';
     connection.query(
@@ -368,12 +352,11 @@ app.get('/hosts', (req, res) => {
     );
   });
 
-  // Delete a property (hotel)
+
   app.delete('/properties/:property_id', verifyHostToken, (req, res) => {
     const propertyId = req.params.property_id;
     const hostId = req.hostId;
 
-    // Delete the property
     const query = 'DELETE FROM properties WHERE id = ? AND host_id = ?';
     connection.query(query, [propertyId, hostId], (error, results) => {
       if (error) {
@@ -387,17 +370,17 @@ app.get('/hosts', (req, res) => {
     });
   });
 
- // Create a new booking (room booking)
+
  app.post('/bookings', verifyGuestToken, (req, res) => {
   const { start_date, end_date, property_id, couponCode, discountedPrice, no_of_people } = req.body;
   const guestId = req.userId;
 
-  // Validate inputs
+
   if (!start_date || !end_date || !property_id || !no_of_people) {
     return res.status(400).json({ error: 'Invalid input' });
   }
 
-  // Check if the property exists and is available for booking
+
   const propertyQuery = 'SELECT * FROM properties WHERE id = ?';
   connection.query(propertyQuery, [property_id], (error, propertyResults) => {
     if (error) {
@@ -411,7 +394,7 @@ app.get('/hosts', (req, res) => {
 
     const property = propertyResults[0];
 
-    // Calculate the number of days between start_date and end_date
+  
     const startDate = new Date(start_date);
     const endDate = new Date(end_date);
     const days = Math.floor((endDate - startDate) / (1000 * 60 * 60 * 24));
