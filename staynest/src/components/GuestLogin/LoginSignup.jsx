@@ -37,7 +37,7 @@ const LoginSignup = () => {
         .then((data) => {
           // Handle login response
           console.log('Login:', data);
-          localStorage.setItem("guestToken",data.key)
+          localStorage.setItem("guestToken",data.token)
           navigate('/', { replace: true });
         })
         .catch((error) => {

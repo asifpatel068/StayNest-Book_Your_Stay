@@ -211,7 +211,7 @@ app.get('/hosts', (req, res) => {
   });
 
   // Create a new property (hotel)
-  app.post('/properties', verifyHostToken, (req, res) => {
+  app.post('/properties', (req, res) => {
     const {
       name,about,property_type,price,images,location,amenities,rating,availability,booked
     } = req.body;

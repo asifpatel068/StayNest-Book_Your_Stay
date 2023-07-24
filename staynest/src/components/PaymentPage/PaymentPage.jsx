@@ -35,9 +35,17 @@ export default function PaymentPage() {
       })
         .then((res) => res.json())
         .then((response) => {
-    
-          console.log('Booking successful:', response);
-          alert('Booking Successful!');
+          console.log(response.message)
+          if(response.error){
+            alert(response.error)
+          }else if(response.message=="Invalid token."){
+            alert("Login First")
+          }
+          else{
+           console.log('Booking successful:', response);
+            alert(response.message);
+          }
+
         })
         .catch((err) => {
           console.error('Error booking:', err);
