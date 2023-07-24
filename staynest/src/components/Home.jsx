@@ -10,7 +10,7 @@ export default function Home() {
 
 
   useEffect(()=>{
-    fetch(`https://expensive-newt-snaps.cyclic.app/properties`)
+    fetch(`https://puzzled-cow-coveralls.cyclic.app/properties`)
     .then((res)=>res.json())
     .then((data)=>setData(data))
     .catch((err)=>console.log(err))
