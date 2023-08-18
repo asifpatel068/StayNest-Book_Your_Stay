@@ -1,4 +1,3 @@
-// LoginSignup.js
 
 import React, { useState } from 'react';
 import './HostLoginSignup.css';
@@ -30,10 +29,10 @@ const LoginSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Call the login or signup API endpoint based on the selected mode
+
     if (mode === 'login') {
-      // Call login API endpoint
-      fetch('https://puzzled-cow-coveralls.cyclic.app/host/login', {
+  
+      fetch('https://staynest.onrender.com/host/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -42,7 +41,7 @@ const LoginSignup = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle login response
+         
           console.log('Login:', data);
           if(data.success){
             alert("Login Success")
@@ -52,12 +51,12 @@ const LoginSignup = () => {
           }
         })
         .catch((error) => {
-          // Handle login error
+   
           console.error('Login error:', error);
         });
     } else {
-      // Call signup API endpoint
-      fetch('https://puzzled-cow-coveralls.cyclic.app/host/signup', {
+ 
+      fetch('https://staynest.onrender.com/host/signup', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -66,7 +65,7 @@ const LoginSignup = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle signup response
+   
           console.log('Signup:', data);
           if(data.success){
             alert("Signup Success")
@@ -75,7 +74,7 @@ const LoginSignup = () => {
        
         })
         .catch((error) => {
-          // Handle signup error
+        
           console.error('Signup error:', error);
         });
     }

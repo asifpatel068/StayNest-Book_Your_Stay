@@ -17,7 +17,6 @@ connection.connect((error) => {
   }
   console.log('Connected to PlanetScale!');
 
-  // Middleware to verify host token
   const verifyHostToken = (req, res, next) => {
     const token = req.headers.authorization;
 
@@ -36,7 +35,6 @@ connection.connect((error) => {
   };
   
 
-  // Middleware to verify guest token
   const verifyGuestToken = (req, res, next) => {
     const token = req.headers.authorization;
 
@@ -65,11 +63,11 @@ connection.connect((error) => {
     res.send("Home page of VacationVerse")
   })
 
-  // Register a new host
+
   app.post('/host/register', (req, res) => {
     const { name, email, password, location, status, profilepicture, bio, hostingSince } = req.body;
 
-    // Hash the password
+   
     bcrypt.hash(password, 10, (error, hashedPassword) => {
       if (error) {
         console.error('Failed to hash password:', error);
@@ -78,8 +76,8 @@ connection.connect((error) => {
       }
 
       const query = 'INSERT INTO hosts (name, email, password, role, location, status, profilepicture, bio, hostingSince ) VALUES (?, ?, ?, ?,?, ?, ?, ?,?)';
-      const role = 'host'; // Set the role as 'host' for new hosts
-      const hostingSince = new Date(); // Get the current date and time
+      const role = 'host';
+      const hostingSince = new Date(); 
       connection.query(query, [name, email, hashedPassword, role, location, status, profilepicture, bio, hostingSince], (error) => {
         if (error) {
           console.error('Failed to register host:', error);
@@ -91,7 +89,7 @@ connection.connect((error) => {
     });
   });
 
-  // Add a new route to get all hosts data
+
 app.get('/hosts', (req, res) => {
   const query = 'SELECT * FROM hosts';
 
@@ -106,7 +104,7 @@ app.get('/hosts', (req, res) => {
 });
 
 
-  // Authenticate a host
+
   app.post('/host/login', (req, res) => {
     const { email, password } = req.body;
 
@@ -125,28 +123,28 @@ app.get('/hosts', (req, res) => {
 
       const host = results[0];
 
-      // Compare the password
+ 
       bcrypt.compare(password, host.password, (error, isMatch) => {
         if (error) {
           console.error('Failed to compare passwords:', error);
           res.status(500).json({ message: 'Failed to authenticate host' });
         } else if (isMatch) {
-          // Passwords match, generate a token
+        
           const token = jwt.sign({ hostId: host.id }, process.env.JWT_SECRET);
           res.status(200).json({ success: true, token });
         } else {
-          // Passwords don't match
+        
           res.status(401).json({ success: false, message: 'Invalid credentials' });
         }
       });
     });
   });
 
-  // Register a new user (guest)
+ 
   app.post('/guest/register', (req, res) => {
     const { name, email, password, gender, profilepicture} = req.body;
 
-    // Hash the password
+   
     bcrypt.hash(password, 10, (error, hashedPassword) => {
       if (error) {
         console.error('Failed to hash password:', error);
@@ -155,7 +153,7 @@ app.get('/hosts', (req, res) => {
       }
 
       const query = 'INSERT INTO guests (name, email, password, role, gender, profilepicture) VALUES (?, ?, ?, ?, ?, ?)';
-      const role = 'guest'; // Set the role as 'guest' for new guests
+      const role = 'guest'; 
       connection.query(query, [name, email, hashedPassword, role, gender, profilepicture], (error) => {
         if (error) {
           console.error('Failed to register user:', error);
@@ -210,7 +208,7 @@ app.get('/hosts', (req, res) => {
     });
   });
 
-  // Create a new property (hotel)
+ 
   app.post('/properties',verifyHostToken, (req, res) => {
     const {
       name,about,property_type,price,images,location,amenities,rating,availability,booked
@@ -295,7 +293,7 @@ app.get('/hosts', (req, res) => {
       query += ' WHERE ' + conditions.join(' AND ');
     }
   
-    // Add sorting options
+    
     const { sortBy } = req.query;
     if (sortBy === 'location') {
       query += ' ORDER BY location ASC';
@@ -303,7 +301,7 @@ app.get('/hosts', (req, res) => {
       query += ' ORDER BY rating DESC';
     }
   
-    // Execute the query
+  
     connection.query(query, values, (error, results) => {
       if (error) {
         console.error('Failed to fetch properties:', error);
@@ -403,10 +401,10 @@ app.get('/hosts', (req, res) => {
       return res.status(400).json({ error: 'Invalid date range' });
     }
 
-    // Calculate the total fare for the booking
+
     const totalFare = days * property.price;
 
-    // Check if the property has available rooms for the specified date range
+  
     const bookingQuery = 'SELECT COUNT(*) AS count FROM bookings WHERE property_id = ? AND ((start_date <= ? AND end_date > ?) OR (start_date >= ? AND start_date < ?))';
     connection.query(bookingQuery, [property_id, endDate, startDate, startDate, endDate], (error, bookingResults) => {
       if (error) {
@@ -421,7 +419,7 @@ app.get('/hosts', (req, res) => {
       //   return res.status(400).json({ error: 'Not enough available rooms for the selected date range' });
       // }
 
-      // Create the booking
+
       const insertQuery =
         'INSERT INTO bookings (start_date, end_date, property_id, guest_id, total_fare, coupon_code, discounted_price, no_of_people) VALUES (?, ?, ?, ?, ?, ?, ?, ?)';
       connection.query(
@@ -461,7 +459,7 @@ app.get('/hosts', (req, res) => {
 app.get('/host/bookings', verifyHostToken, (req, res) => {
   const hostId = req.hostId;
 
-  // Retrieve bookings for the host from the database
+
   const query = 'SELECT b.id, b.start_date, b.end_date, b.total_fare, b.property_name, b.rooms_booked, b.property_image, b.coupon_code,b.name,b.number FROM bookings b JOIN properties p ON b.property_id = p.id WHERE p.host_id = ?';
   connection.query(query, [hostId], (error, results) => {
     if (error) {
@@ -475,11 +473,11 @@ app.get('/host/bookings', verifyHostToken, (req, res) => {
 
 
 
-// Get booking details ADMIN
+
 app.get('/bookings',verifyGuestToken, (req, res) => {
   const guestId = req.userId;
 console.log(req)
-  // Retrieve all bookings for the specified guest_id
+
   const query = 'SELECT * FROM bookings WHERE guest_id = ?';
   connection.query(query, [guestId], (error, results) => {
     if (error) {
@@ -496,18 +494,17 @@ console.log(req)
 });
 
 
-// Update booking details
+
 app.put('/bookings/:booking_id', verifyGuestToken, (req, res) => {
   const bookingId = req.params.booking_id;
   const { start_date, end_date ,rooms_booked} = req.body;
   const guestId = req.userId;
 
-  // Validate inputs
+
   if (!start_date || !end_date) {
     return res.status(400).json({ error: 'Invalid input' });
   }
 
-  // Check if the booking exists and belongs to the authenticated guest
   const bookingQuery = 'SELECT * FROM bookings WHERE id = ? AND guest_id = ?';
   connection.query(bookingQuery, [bookingId, guestId], (error, bookingResults) => {
     if (error) {
@@ -519,7 +516,7 @@ app.put('/bookings/:booking_id', verifyGuestToken, (req, res) => {
       return res.status(404).json({ error: 'Booking not found' });
     }
 
-    // Update the booking details
+ 
     const updateQuery = 'UPDATE bookings SET start_date = ?, end_date = ?, rooms_booked=? WHERE id = ?';
     connection.query(updateQuery, [start_date, end_date,rooms_booked, bookingId], (error) => {
       if (error) {
@@ -532,12 +529,12 @@ app.put('/bookings/:booking_id', verifyGuestToken, (req, res) => {
   });
 });
 
-// Delete a booking
+
 app.delete('/bookings/:booking_id', verifyGuestToken, (req, res) => {
   const bookingId = req.params.booking_id;
   const guestId = req.userId;
 
-  // Delete the booking
+
   const query = 'DELETE FROM bookings WHERE id = ? AND guest_id = ?';
   connection.query(query, [bookingId, guestId], (error, result) => {
     if (error) {

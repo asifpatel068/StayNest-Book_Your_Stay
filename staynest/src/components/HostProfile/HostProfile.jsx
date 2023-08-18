@@ -3,7 +3,6 @@ import axios from "axios"
 
 export default function HostProfile() {
 
-    //side images
     let token=localStorage.getItem("hostToken")||null;
     
     const [sideImage,setSideImage]=useState()
@@ -68,7 +67,7 @@ export default function HostProfile() {
         })
         //------------------
         console.log(token)
-        fetch('https://puzzled-cow-coveralls.cyclic.app/properties', {
+        fetch('https://staynest.onrender.com/properties', {
             method: 'POST',
             headers: {
               'Content-Type': 'application/json',

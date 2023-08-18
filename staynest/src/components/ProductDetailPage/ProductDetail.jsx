@@ -14,14 +14,14 @@ export default function ProductDetail() {
   const [numberOfGuests, setNumberOfGuests] = useState('');
 
   useEffect(() => {
-    fetch(`https://puzzled-cow-coveralls.cyclic.app/properties/${Id}`)
+    fetch(`https://staynest.onrender.com/properties/${Id}`)
       .then((res) => res.json())
       .then((data) => setData(data.properties))
       .catch((err) => console.log(err));
   }, [Id]);
 
   const handleBookButtonClick = (id,checkIn,checkOut,price,guests) => {
-    // Prepare the data to send in the POST request
+
     if(checkIn==""||checkOut==""||price==""||guests==""){
         alert("Fill All Data")
       
