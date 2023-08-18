@@ -23,10 +23,10 @@ const LoginSignup = () => {
 
   const handleSubmit = (e) => {
     e.preventDefault();
-    // Call the login or signup API endpoint based on the selected mode
+   
     if (mode === 'login') {
-      // Call login API endpoint
-      fetch('https://puzzled-cow-coveralls.cyclic.app/guest/login', {
+      
+      fetch('https://staynest.onrender.com/guest/login', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -35,18 +35,17 @@ const LoginSignup = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle login response
+    
           console.log('Login:', data);
           localStorage.setItem("guestToken",data.token)
           navigate('/', { replace: true });
         })
         .catch((error) => {
-          // Handle login error
+         
           console.error('Login error:', error);
         });
     } else {
-      // Call signup API endpoint
-      fetch('https://puzzled-cow-coveralls.cyclic.app/guest/register', {
+      fetch('https://staynest.onrender.com/guest/register', {
         method: 'POST',
         headers: {
           'Content-Type': 'application/json',
@@ -55,11 +54,9 @@ const LoginSignup = () => {
       })
         .then((response) => response.json())
         .then((data) => {
-          // Handle signup response
           console.log('Signup:', data);
         })
         .catch((error) => {
-          // Handle signup error
           console.error('Signup error:', error);
         });
     }

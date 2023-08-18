@@ -30,7 +30,7 @@ const Navigation = () => {
           <input type="text" placeholder="Search" className="search-input" />
           
         </li>
-        {/* Add more navigation links here as needed */}
+        
       </ul>
     </nav>
   );

@@ -1,19 +1,19 @@
-/* ProductDetail.css */
+
 body{
-    background-color: #f1f8ff; /* Sky blue background color */
+    background-color: #f1f8ff; 
 }
-/* Main container */
+
 .main {
     width: 80%;
-    margin: 0 auto; /* Center the content horizontally */
+    margin: 0 auto;
     display: flex;
     flex-direction: column;
     gap: 20px;
     padding: 50px;
-    background-color: #e5f1fec2; /* Sky blue background color */
+    background-color: #e5f1fec2; 
   }
   
-  /* Product Info section */
+
   .product-info {
     display: flex;
     flex-direction: column;
@@ -21,7 +21,7 @@ body{
   
   .product-info h3 {
     font-size: 24px;
-    color:  #1a98b9; /* Darker shade of sky blue for button hover */
+    color:  #1a98b9; 
 
   }
   
@@ -31,7 +31,7 @@ body{
     margin: 5px 0;
   }
   
-  /* Image and Gallery section */
+
   .image-gallery {
     display: flex;
     gap: 20px;
@@ -64,7 +64,7 @@ body{
     object-fit: cover;
   }
   
-  /* Property Info section */
+ 
   .property-info {
     padding: 10px;
     width: 50%;
@@ -72,7 +72,7 @@ body{
   
   .property-info h3 {
     font-size: 20px;
-    color: #22b8cf; /* Sky blue text color */
+    color: #22b8cf; 
     margin-bottom: 5px;
   }
   
@@ -88,7 +88,7 @@ body{
     line-height: 1.6;
   }
   
-  /* Amenities section */
+
   .amenities {
     display: flex;
     gap: 20px;
@@ -104,7 +104,7 @@ body{
   
   .amenities h3 {
     font-size: 20px;
-    color: #22b8cf; /* Sky blue text color */
+    color: #22b8cf; 
     margin-bottom: 5px;
   }
   
@@ -114,7 +114,7 @@ body{
     line-height: 1.6;
   }
   
-  /* Booking card section */
+
   .booking-card {
     width: 25%;
     padding: 25px;
@@ -124,7 +124,7 @@ body{
     grid-template-columns: 1fr;
     gap: 10px;
     align-items:center;
-    background-color: #fff; /* White background color for the booking card */
+    background-color: #fff; 
     position: fixed;
     right: 10%;
     top: 70%;
@@ -149,8 +149,8 @@ body{
     grid-column: span 2;
     padding: 10px 20px;
     font-size: 16px;
-    background-color: #22b8cf; /* Sky blue button background color */
-    color: #fff; /* White button text color */
+    background-color: #22b8cf; 
+    color: #fff; 
     border: none;
     border-radius: 4px;
     cursor: pointer;
@@ -158,14 +158,14 @@ body{
   }
   
   .booking-card button:hover {
-    background-color: #1a98b9; /* Darker shade of sky blue for button hover */
+    background-color: #1a98b9;
   }
   
-  /* Responsive styles for small screens */
+  
   @media screen and (max-width: 768px) {
     .main {
-      width: 100%; /* Full width for small screens */
-      padding: 20px; /* Reduce padding for small screens */
+      width: 100%; 
+      padding: 20px;
     }
   
     .image-gallery {

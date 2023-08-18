@@ -1,6 +1,4 @@
-/* Home.css */
 
-/* Styling for the container */
 .container {
     width: 80%;
     display: grid;
@@ -10,7 +8,7 @@
     margin: auto;
   }
   
-  /* Styling for individual cards */
+
   .card {
     border: 1px solid #ccc;
     border-radius: 8px;
@@ -19,22 +17,20 @@
     background-color: #fff;
   }
   
-  /* Styling for the card image */
+
   .card img {
     width: 100%;
     height: 200px;
     object-fit: cover;
     border-radius: 8px;
   }
-  
-  /* Styling for the card title */
+
   .card h3 {
     margin: 10px 0;
     font-size: 20px;
     color: #333;
   }
-  
-  /* Styling for the rating */
+
   .card p {
     display: flex;
     align-items: center;
@@ -42,26 +38,24 @@
     color: #ffac33;
   }
   
-  /* Styling for the star icon */
+  
   .card p svg {
     margin-right: 5px;
   }
   
-  /* Styling for the location */
+
   .card p,
   .card h4 {
     margin: 5px 0;
     color: #555;
   }
-  
-  /* Styling for the price */
+
   .card h4 {
     font-size: 18px;
     font-weight: bold;
     color: #22b8cf;
   }
   
-  /* Styling for the login and signup buttons */
   div > button {
     margin: 10px 5px;
     padding: 10px 20px;

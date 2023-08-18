@@ -2,15 +2,15 @@ import React, { useState, useEffect } from 'react';
 import { useParams } from 'react-router-dom';
 
 const HostAccount = () => {
-  const { hostId } = useParams(); // Get hostId from URL parameters
+  const { hostId } = useParams();
 
   const [host, setHost] = useState(null);
   const [editMode, setEditMode] = useState(false);
   const [formData, setFormData] = useState({});
 
-  // Fetch the host details when the component mounts
+ 
   useEffect(() => {
-    fetch(`https://puzzled-cow-coveralls.cyclic.app/hosts/${hostId}`) // Replace with the actual endpoint for fetching a host by ID
+    fetch(`https://staynest.onrender.com/hosts/${hostId}`)
       .then((response) => response.json())
       .then((data) => {
         setHost(data);
@@ -29,14 +29,14 @@ const HostAccount = () => {
   };
 
   const handleSave = () => {
-    // Send formData to the server for updating the host
+   
     fetch(`http://localhost:5000/hosts/${hostId}`, {
       method: 'PUT',
       headers: { 'Content-Type': 'application/json' },
       body: JSON.stringify(formData),
     })
       .then(() => {
-        // Refresh the host details after successful update
+   
         fetch(`http://localhost:5000/hosts/${hostId}`)
           .then((response) => response.json())
           .then((data) => {
